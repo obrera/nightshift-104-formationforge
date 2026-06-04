@@ -36,6 +36,11 @@
 - `curl /`: returned app HTML.
 - `curl /api/metadata/wvdsoxaxw.hub`: returned build 104 JSON metadata with SVG URL.
 - `curl /api/svg/wvdsoxaxw.hub`: returned `image/svg+xml`.
+- Docker build: passed with `bun install --frozen-lockfile --ignore-scripts` and production Vite build.
+- Live deployment: `https://formationforge104.colmena.dev` returned HTTP 200.
+- Live metadata route: `/api/metadata/wvdsoxaxw.hub` returned build 104 metadata with HTTPS SVG image URL.
+- Responsive check: `npm --prefix /home/obrera/clawd/nightshift-agents run check:responsive -- --url https://formationforge104.colmena.dev` passed for mobile and desktop.
+- Screenshot generation: `npm --prefix /home/obrera/clawd/nightshift-agents run generate-screenshots -- --username obrera --build 104` produced `/screenshots/obrera/104-formationforge.png`.
 
 ## Blockers
 
