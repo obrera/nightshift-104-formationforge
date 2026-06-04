@@ -1,0 +1,22 @@
+services:
+  formationforge104:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.formationforge104.entrypoints: websecure
+      traefik.http.routers.formationforge104.rule: Host(`formationforge104.colmena.dev`)
+      traefik.http.routers.formationforge104.tls.certresolver: letsencrypt
+      traefik.http.services.formationforge104.loadbalancer.server.port: "3000"
+    networks:
+      - default
+    restart: unless-stopped
+
+networks:
+  default:
+    name: dokploy-network
+    external: true
