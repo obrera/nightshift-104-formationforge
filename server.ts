@@ -5,6 +5,12 @@ import { createFormationMetadata, createFormationSvg } from './src/formation/met
 import { scoreFormation } from './src/formation/scoring'
 import { decodeFormationState } from './src/formation/stateCodec'
 
+function publicOrigin(request: Request, url: URL) {
+  const host = request.headers.get('x-forwarded-host') ?? request.headers.get('host') ?? url.host
+  const proto = request.headers.get('x-forwarded-proto') ?? (host.endsWith('colmena.dev') ? 'https' : url.protocol.replace(':', ''))
+  return `${proto}://${host}`
+}
+
 Bun.serve({
   port,
   async fetch(request) {
@@ -15,7 +21,7 @@ Bun.serve({
       const { board, controls } = decodeFormationState(encoded)
       const scores = scoreFormation(board, controls)
       const metadata = createFormationMetadata(board, controls, scores)
-      metadata.image = `${url.origin}/api/svg/${encoded ?? ''}`
+      metadata.image = `${publicOrigin(request, url)}/api/svg/${encoded ?? ''}`
 
       return Response.json(metadata, {
         headers: {
